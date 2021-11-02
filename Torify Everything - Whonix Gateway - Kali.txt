@@ -1,0 +1,37 @@
+==================================================================================================================
+
+	!!!		Torify Everything		!!!
+	
+	=>		Run Whonix Gateway	+	Configure 'Ano ... wizard'
+	
+	=>		Torify everting through Whonix from "Kali linux"
+	
+				=>	Setting							-	Network: Internal Network (whonix)
+				=>	Network Configuration Setting	-	IPv4 Setting
+																	Method:		Manual
+																	Addresses:	10.152.152.3	255.255.192.0	10.152.152.10
+																	DNS server:	10.152.152.10
+				=>	Terminal:
+						sudo ip addr show				{ip should be 10.152.152.3, if not running following command}
+						sudo ip link set dev eth0 down
+						sudo ip link set dev eth0 up
+						sudo ip addr show				{Now 10.152.152.3 should be reflectd for eth0}
+						
+						Note:	Here, " sudo dhclient -v -r & sudo dhclient -v " will not work. Because,Whonix Gateway doesn't have dhcp server + It requries static ip setting in Kali Linux 
+						
+				=>	check.torproject.org
+				
+	=>		How to set back everthing back to normal as "Bridged Adapter" network
+	
+				=>	Setting							-	Network: Bridged Adapter
+				=>	Network Configuration Setting	-	IPv4 Setting
+																	Method: Manual
+					Terminal:
+						sudo ip addr show				{Static ip 10.152.152.3 should be replaced! + DHCP client must be run again}
+						sudo ip link set dev eth0 down
+						sudo ip link set dev eth0 up
+						sudo dhclient -v -r				{release all ip's on all network interface}
+						sudo dhclient -v				{Get new ip from dhcp server in VirtualBox}
+						sudo systemctl restart NetworkManager.service		{Restart all network services}
+
+==================================================================================================================
